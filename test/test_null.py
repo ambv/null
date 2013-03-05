@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2011 by Łukasz Langa
-# 
+# Copyright (C) 2011-2013 by Łukasz Langa
+
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -34,6 +34,7 @@ import six
 
 from null import Null, NullDict, NullList, nullify
 from oa import e
+
 
 class TestNull(unittest.TestCase):
     def setUp(self):
@@ -100,9 +101,11 @@ class TestNull(unittest.TestCase):
         self.assertFalse(isinstance(j, NullDict))
         self.assertTrue(isinstance(j['data']['children'], list))
         self.assertFalse(isinstance(j['data']['children'], NullList))
-        self.assertEqual(j['data']['children'][24]['data']['url'],
+        self.assertEqual(
+            j['data']['children'][24]['data']['url'],
             'http://technicaldiscovery.blogspot.com/2011/06/speeding-up-python'
-            '-numpy-cython-and.html')
+            '-numpy-cython-and.html',
+        )
         with self.assertRaises(IndexError):
             j['data']['children'][25]
         with self.assertRaises(KeyError):
@@ -112,9 +115,11 @@ class TestNull(unittest.TestCase):
         self.assertTrue(isinstance(k, NullDict))
         self.assertTrue(isinstance(k['data']['children'], list))
         self.assertTrue(isinstance(k['data']['children'], NullList))
-        self.assertEqual(k['data']['children'][24]['data']['url'],
+        self.assertEqual(
+            k['data']['children'][24]['data']['url'],
             'http://technicaldiscovery.blogspot.com/2011/06/speeding-up-python'
-            '-numpy-cython-and.html')
+            '-numpy-cython-and.html',
+        )
         self.assertIs(k['data']['children'][25], Null)
         self.assertIs(k['data']['parents'], Null)
 
@@ -145,18 +150,18 @@ class TestNull(unittest.TestCase):
 
     def test_xml(self):
         f = nullify(e)
-        self.assertEqual(e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
-            ['POWERSTATE'], 'ON')
+        self.assertEqual(e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']
+                         ['POWERSTATE'], 'ON')
         with self.assertRaises(IndexError):
             e[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']['POWERSTATE']
         with self.assertRaises(KeyError):
             e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']['LEVEL']
-        self.assertEqual(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
-            ['POWERSTATE'], 'ON')
-        self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']\
-            ['POWERSTATE'], Null)
-        self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
-            ['LEVEL'], Null)
+        self.assertEqual(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']
+                         ['POWERSTATE'], 'ON')
+        self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']
+                      ['POWERSTATE'], Null)
+        self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']
+                      ['LEVEL'], Null)
 
 
 if __name__ == '__main__':

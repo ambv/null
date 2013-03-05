@@ -41,7 +41,7 @@ with codecs.open(
 
 setup (
     name = 'null',
-    version = '0.6.0',
+    version = '0.6.1',
     author = 'Łukasz Langa',
     author_email = 'lukasz@langa.pl',
     description = "Implements the null object pattern.",

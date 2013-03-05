@@ -1,2 +1,2 @@
 include README.rst
-recursive-include test/ *.json *.xml *.pickle *.ini
+recursive-include test *.py *.json *.xml *.pickle *.ini
