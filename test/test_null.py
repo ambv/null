@@ -29,9 +29,11 @@ from __future__ import unicode_literals
 import json
 import os
 import unittest
-from xml.etree import ElementTree as ET
+
+import six
 
 from null import Null, NullDict, NullList, nullify
+from oa import e
 
 class TestNull(unittest.TestCase):
     def setUp(self):
@@ -44,8 +46,8 @@ class TestNull(unittest.TestCase):
     def test_simple(self):
         self.assertIs(Null, Null)
         self.assertEqual(Null, Null)
-        self.assertEqual(unicode(Null), "")
-        self.assertEqual(str(Null), b"")
+        self.assertEqual(six.text_type(Null), "")
+        self.assertEqual(six.binary_type(Null), b"")
         self.assertEqual(repr(Null), "Null")
         self.assertFalse(Null)
         self.assertEqual(len(Null), 0)
@@ -142,26 +144,19 @@ class TestNull(unittest.TestCase):
         self.assertNotIn('DoesNotExist', p['DoesNotExist'])
 
     def test_xml(self):
-        try:
-            from lck.xml import etree_to_dict
-        except ImportError:
-            self.skipTest("lck.common package not installed.")
-        with open(self.data("oa.xml")) as f:
-            e = ET.parse(f)
-            e = etree_to_dict(e)
-            f = nullify(e)
-            self.assertEqual(e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
-                ['POWERSTATE'], 'ON')
-            with self.assertRaises(IndexError):
-                e[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']['POWERSTATE']
-            with self.assertRaises(KeyError):
-                e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']['LEVEL']
-            self.assertEqual(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
-                ['POWERSTATE'], 'ON')
-            self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']\
-                ['POWERSTATE'], Null)
-            self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
-                ['LEVEL'], Null)
+        f = nullify(e)
+        self.assertEqual(e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
+            ['POWERSTATE'], 'ON')
+        with self.assertRaises(IndexError):
+            e[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']['POWERSTATE']
+        with self.assertRaises(KeyError):
+            e[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']['LEVEL']
+        self.assertEqual(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
+            ['POWERSTATE'], 'ON')
+        self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][10]['POWER']\
+            ['POWERSTATE'], Null)
+        self.assertIs(f[1]['INFRA2']['MANAGERS']['MANAGER'][0]['POWER']\
+            ['LEVEL'], Null)
 
 
 if __name__ == '__main__':

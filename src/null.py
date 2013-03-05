@@ -34,14 +34,20 @@ from __future__ import unicode_literals
 
 from collections import MutableMapping, MutableSequence
 
+import six
+
 
 class _Null(object):
     """See: http://en.wikipedia.org/wiki/Null_Object_pattern"""
 
     def __init__(self, _unicode="", _repr="Null"):
         self.__dict__['_unicode'] = _unicode
-        self.__dict__['_str'] = _unicode.encode("utf8")
-        self.__dict__['_repr'] = _repr
+        if six.PY3:
+            self.__dict__['_str'] = _unicode
+            self.__dict__['_repr'] = _repr
+        else:
+            self.__dict__['_str'] = _unicode.encode("utf8")
+            self.__dict__['_repr'] = _repr.encode("utf8")
 
     def __unicode__(self):
         return self.__getattribute__("_unicode")
@@ -82,6 +88,8 @@ class _Null(object):
     def next(self):
         raise StopIteration
 
+    __next__ = next
+
 
 unset = _Null(_unicode="unset", _repr="unset")
 Null = _Null()
@@ -102,7 +110,7 @@ class NullList(list):
 def nullify(obj):
     if isinstance(obj, MutableMapping):
         d = NullDict()
-        for k, v in obj.iteritems():
+        for k, v in six.iteritems(obj):
             d[k] = nullify(v)
         return d
 
