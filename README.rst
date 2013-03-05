@@ -1,6 +1,6 @@
-----
+====
 null
-----
+====
 
 Implements the `null object pattern
 <http://en.wikipedia.org/wiki/Null_Object_pattern>`_.
@@ -28,26 +28,26 @@ The easiest way would be to extract the source tarball and run::
   $ python test/test_null.py
 
 Change Log
-==========
+----------
 
 0.6.1
------
+~~~~~
 
 * ``MANIFEST.in`` will forever be my favourite gotcha of Python packaging
 
 * PEP8-fied the sources
 
 0.6.0
------
+~~~~~
 
 * long overdue Python 3 support
 
 0.5.0
------
+~~~~~
 
 * initial published version
 
 Authors
-=======
+-------
 
 Glued together by `Łukasz Langa <mailto:lukasz@langa.pl>`_.
