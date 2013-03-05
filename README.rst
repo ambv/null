@@ -23,6 +23,10 @@ Provides:
 - an ``unset`` singleton for clearing up APIs to distinguish between a keyword
   argument that is set by the user as ``None`` and simply not set by the user
 
+Use Bitbucket to report issues:
+
+  https://bitbucket.org/ambv/null
+
 How do I run the tests?
 -----------------------
 
