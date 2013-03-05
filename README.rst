@@ -2,6 +2,9 @@
 null
 ====
 
+.. image:: https://secure.travis-ci.org/ambv/null.png
+  :target: https://secure.travis-ci.org/ambv/null
+
 Implements the `null object pattern
 <http://en.wikipedia.org/wiki/Null_Object_pattern>`_.
 
